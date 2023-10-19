@@ -19,14 +19,14 @@ PATHS = [
     }
 ]
 
-SPEC = None
+spec = None
 
 antenna_assignments = []
 antenna_count = 0
 
 with open("dataset/spec.json") as specfile:
-    SPEC = json.load(specfile)
-    for antenna in SPEC["antennas"]:
+    spec = json.load(specfile)
+    for antenna in spec["antennas"]:
         antenna_count = antenna_count + sum([len(row) for row in antenna["assignments"]])
         antenna_assignments.append(antenna["assignments"])
 
