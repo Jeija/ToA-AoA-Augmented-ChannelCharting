@@ -1,3 +1,6 @@
 __pycache__
 .ipynb_checkpoints
 dataset
+
+# dissimilarity matrix is just too large... compute it yourself!
+results/dissimilarity_matrix_geodesic_meters.npy
