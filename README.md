@@ -6,6 +6,9 @@ This repository contains the source code for the paper
 
 presented at the Asilomar Conference on Signals, Systems, and Computers in November 2023.
 
+<img src="img/toa_aoa_ml_animation.gif" alt="Classical Localization: Animation" width=400>
+
+
 In that paper, we show how to combine [Dissimilarity Metric-Based Channel Charting](https://dichasus.inue.uni-stuttgart.de/tutorials/tutorial/dissimilarity-metric-channelcharting/) with classical source localization techniques (angle of arrival + triangulation, time of arrival + trilateration) to generate very accurate transmitter position estimates purely from channel state information (CSI) available at a massive MIMO base station.
 We use the [dichasus-cf0x CSI dataset](https://dichasus.inue.uni-stuttgart.de/datasets/data/dichasus-cf0x/) measured by [DICHASUS](https://dichasus.inue.uni-stuttgart.de/).
 
@@ -22,6 +25,7 @@ Classical-Augmented Channel Chart | Channel Chart - Error Vectors
 <img src="img/channel_chart_testset.png" alt="Channel Chart, generated from test set" width="300"/> | <img src="img/errorvectors_testset.png" alt="Channel Chart, generated from test set" width="300"/>
 
 ![Cumulative Distribution Function for different localization techniques](img/cdf.svg)
+
 
 In summary, both classical and Channel Charting-based localization algorithms are capable of producing good transmitter position estimates.
 Channel Charting produces much more accurate estimates, however.
@@ -54,6 +58,7 @@ In the `results` directory, this repository contains the intermediate results of
 * `4_ClassicalLocalization.ipynb`: Estimate the transmitter position using classical triangulation / multilateration. The code maximizes a joint AoA+ToA-based likelihood function. By making use of Python's multiprocessing, this step should only take a few seconds to a few minutes on a sufficiently fast machine.
 * `5_DissimilarityMatrix.ipynb`: Compute the fused dissimilarity matrix (angle delay profile + timestamp-based, learn more about this in [our tutorial](https://dichasus.inue.uni-stuttgart.de/tutorials/tutorial/dissimilarity-metric-channelcharting/)). This dissimilarity matrix is the most important ingredient to dissimilarity metric-based Channel Charting. This step should take a few seconds to a few minutes.
 * `6_AugmentedChannelCharting.ipynb`: Train the neural network that implements the forward charting function, with a loss function that uses both the previously computed dissimilarity matrix as well as the computed AoA / ToA estimates. Training is based on a Siamese neural network. With GPU acceleration, this should take between a few seconds to a few minutes.
+* `VisualizationVideo.ipynb`: Optional, generates videos that visualize classical TDoA / AoA estimation. Requires ToA / AoA estimates and delay spreads.
 
 ### Citation
 ```
