@@ -9,14 +9,30 @@ presented at the Asilomar Conference on Signals, Systems, and Computers in Novem
 In that paper, we show how to combine [Dissimilarity Metric-Based Channel Charting](https://dichasus.inue.uni-stuttgart.de/tutorials/tutorial/dissimilarity-metric-channelcharting/) with classical source localization techniques (angle of arrival + triangulation, time of arrival + trilateration) to generate very accurate transmitter position estimates purely from channel state information (CSI) available at a massive MIMO base station.
 We use the [dichasus-cf0x CSI dataset](https://dichasus.inue.uni-stuttgart.de/datasets/data/dichasus-cf0x/) measured by [DICHASUS](https://dichasus.inue.uni-stuttgart.de/).
 
+### Results
+Here are some of the main findings from the paper:
+
 Reference Positions (Tachymeter) | Classical: AoA / ToA Joint Estimation
 :-:|:-:
 <img src="img/groundtruth.png" alt="Ground Truth Positions" width="300"/> | <img src="img/classical_result.png" alt="Channel Chart, generated from test set" width="300"/>
 
 
-Channel Chart | Channel Chart - Error Vectors
+Classical-Augmented Channel Chart | Channel Chart - Error Vectors
 :-:|:-:
 <img src="img/channel_chart_testset.png" alt="Channel Chart, generated from test set" width="300"/> | <img src="img/errorvectors_testset.png" alt="Channel Chart, generated from test set" width="300"/>
+
+![Cumulative Distribution Function for different localization techniques](img/cdf.svg)
+
+In summary, both classical and Channel Charting-based localization algorithms are capable of producing good transmitter position estimates.
+Channel Charting produces much more accurate estimates, however.
+
+The CDF plot shows the following curves, from least accurate (lowest) to most accurate (highest):
+* Maximum Likelihood (ML) position estimation based on Time of Arrival (ToA) information
+* Maximum Likelihood (ML) position estimation based on Angle of Arrival (AoA) information
+* Maximum Likelihood (ML) position estimation, jointly based on Time of Arrival (ToA) and Angle of Arrival (AoA) information. *This is what is implemented in this repository in `4_ClassicalLocalization.ipynb`.*
+* Channel Charting (CC) with application of affine transform from Channel Chart coordinates to physical space coordinates. The affine transform was estimated using classical (ML with joint AoA+ToA) position estimates.
+* Channel Charting (CC) with application of affine transform from Channel Chart coordinates to physical space coordinates. The affine transform was estimated using ground truth positions, which effectively amounts to "cheating".
+* Channel Charting (CC), with loss function augmented by classical likelihood function. *This is what is implemented in this repository in `6_AugmentedChannelCharting.ipynb`.*
 
 ### Prerequesites
 Our code is based on Python, TensorFlow, NumPy, SciPy and Matplotlib.
