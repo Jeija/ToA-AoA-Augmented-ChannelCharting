@@ -1,6 +1,8 @@
 __pycache__
 .ipynb_checkpoints
 dataset
+results/.nfs*
+results/*_.mp4
 
 # dissimilarity matrix is just too large... compute it yourself!
 results/dissimilarity_matrix_geodesic_meters.npy

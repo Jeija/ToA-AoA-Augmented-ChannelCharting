@@ -6,7 +6,9 @@ This repository contains the source code for the paper
 
 presented at the Asilomar Conference on Signals, Systems, and Computers in November 2023.
 
-<img src="img/toa_aoa_ml_animation.gif" alt="Classical Localization: Animation" width=400>
+Classical Localization | Channel Charting
+:-:|:-:
+<img src="img/toa_aoa_ml_animation.gif" alt="Classical Localization: Animation" width=300> | <img src="img/cc_animation.gif" alt="Evolution of channel chart over training steps" width=300>
 
 
 In that paper, we show how to combine [Dissimilarity Metric-Based Channel Charting](https://dichasus.inue.uni-stuttgart.de/tutorials/tutorial/dissimilarity-metric-channelcharting/) with classical source localization techniques (angle of arrival + triangulation, time of arrival + trilateration) to generate very accurate transmitter position estimates purely from channel state information (CSI) available at a massive MIMO base station.
