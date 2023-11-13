@@ -4,7 +4,7 @@ This repository contains the source code for the paper
 
 > Florian Euchner, Phillip Stephan, Stephan ten Brink: "Augmenting Channel Charting with Classical Wireless Source Localization Techniques"
 
-presented at the Asilomar Conference on Signals, Systems, and Computers in November 2023.
+presented at the Asilomar Conference on Signals, Systems, and Computers in November 2023. You will also find the [presentation slides](PresentationSlides_Asilomar2023.pdf) in this repository.
 
 Classical Localization | Channel Charting
 :-:|:-:
