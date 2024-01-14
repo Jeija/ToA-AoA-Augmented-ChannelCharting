@@ -1,6 +1,6 @@
 # Augmenting Channel Charting with Classical Wireless Source Localization Techniques
 
-This repository contains the source code for the paper
+This repository contains the source code for [the paper](https://arxiv.org/abs/2312.01968)
 
 > Florian Euchner, Phillip Stephan, Stephan ten Brink: "Augmenting Channel Charting with Classical Wireless Source Localization Techniques"
 
@@ -63,6 +63,7 @@ In the `results` directory, this repository contains the intermediate results of
 * `VisualizationVideo.ipynb`: Optional, generates videos that visualize classical TDoA / AoA estimation. Requires ToA / AoA estimates and delay spreads.
 
 ### Citation
+[Link to related Asilomar Paper](https://arxiv.org/abs/2312.01968)
 ```
 @inproceedings{euchner2023augmenting,
 	author    = {Euchner, Florian and Stephan, Phillip and ten Brink, Stephan},
