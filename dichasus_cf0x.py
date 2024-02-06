@@ -39,9 +39,9 @@ def load_calibrate(path, offset_path):
         record = tf.io.parse_single_example(
             proto,
             {
-                "csi": tf.io.FixedLenFeature([], tf.string, default_value=""),
-                "pos-tachy": tf.io.FixedLenFeature([], tf.string, default_value=""),
-                "time": tf.io.FixedLenFeature([], tf.float32, default_value=0),
+                "csi": tf.io.FixedLenFeature([], tf.string, default_value = ""),
+                "pos-tachy": tf.io.FixedLenFeature([], tf.string, default_value = ""),
+                "time": tf.io.FixedLenFeature([], tf.float32, default_value = 0),
             },
         )
 
@@ -65,10 +65,32 @@ def load_calibrate(path, offset_path):
         csi = tf.stack([[tf.gather(csi, antenna_indices) for antenna_indices in array] for array in antenna_assignments])
         return csi, pos, time
 
+    def fdomain_csi_to_mean_delayspread(csi):
+        # csi comes in as shape (arrays, rows, columns, subcarriers)
+        # --> we want (arrays, antennas = rows * columns, subcarriers), reshape!
+        csi = tf.signal.fftshift(tf.signal.ifft(tf.signal.fftshift(csi, axes = -1)), axes=-1)[:,:,:,512-8:512+40]
+        csi_by_array = tf.reshape(csi, (tf.shape(csi)[0], 8, tf.shape(csi)[3]))
+        powers = tf.square(tf.abs(csi_by_array))
+        timestamps = tf.range(tf.shape(csi_by_array)[2], dtype = np.float32) / spec["bandwidth"]
+        time_weighted_powers = tf.einsum("amt,t->amt", powers, timestamps)
+        mean_delays = tf.divide(tf.reduce_sum(time_weighted_powers, axis = 2), tf.reduce_sum(powers, axis = 2))
+        squared_delays = tf.square(timestamps[tf.newaxis, tf.newaxis, :] - mean_delays[:, :, tf.newaxis])
+        delayspreads = tf.sqrt(tf.divide(tf.reduce_sum(tf.multiply(squared_delays, powers), axis = 2), tf.reduce_sum(powers, axis = 2)))
+    
+        return delayspreads
+    
+    def is_broken_datapoint(csi, pos, time):
+        # A bug in the DICHASUS postprocessing script introduced a small number of erroneous data in the
+        # current version of the dc0x dataset (will be fixed in the future by re-running the postprocessing
+        # script). For now, we just remove these datapoints, which can be identified by a very high delay spread
+        # (if examined closely, these datapoints are totally nonsensical).
+        return tf.math.reduce_all(fdomain_csi_to_mean_delayspread(csi) < 2e-7)
+    
     dset = tf.data.TFRecordDataset(path)
     dset = dset.map(record_parse_function, num_parallel_calls = tf.data.AUTOTUNE)
     dset = dset.map(apply_calibration, num_parallel_calls = tf.data.AUTOTUNE)
     dset = dset.map(order_by_antenna_assignments, num_parallel_calls = tf.data.AUTOTUNE)
+    dset = dset.filter(is_broken_datapoint)
 
     return dset
 
