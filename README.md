@@ -40,7 +40,7 @@ The CDF plot shows the following curves, from least accurate (lowest) to most ac
 * Channel Charting (CC) with application of affine transform from Channel Chart coordinates to physical space coordinates. The affine transform was estimated using ground truth positions, which effectively amounts to "cheating".
 * Channel Charting (CC), with loss function augmented by classical likelihood function. *This is what is implemented in this repository in `6_AugmentedChannelCharting.ipynb`.*
 
-### Prerequesites
+### Prerequisites
 Our code is based on Python, TensorFlow, NumPy, SciPy and Matplotlib.
 Source files are provided as Jupyter Notebooks, which can be opened directly here on GitHub or using e.g. [https://jupyter.org/](JupyterLab).
 
